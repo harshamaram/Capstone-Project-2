@@ -51,7 +51,7 @@ public  class FoodCut {
         float radius = Math.sqrt(halfWidth*halfWidth + halfheight*halfheight);
         
         // create new cavas which fits original image and contains more space for the oval
-        Bitmap output = Bitmap.createBitmap (2*radius, 2*radius, Bitmap.Config.ARGB_8888);
+        Bitmap output = Bitmap.createBitmap (bitmap.getWidth (), bitmap.getHeight, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas (output);
         canvas.drawARGB (0, 0, 0, 0);
         
