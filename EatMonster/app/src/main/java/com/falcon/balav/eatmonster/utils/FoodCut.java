@@ -44,21 +44,30 @@ public  class FoodCut {
 
 
     private static Bitmap cutArcImage(Bitmap bitmap, float startAngle, float sweepAngle) {
-        Bitmap output = Bitmap.createBitmap (bitmap.getWidth (), bitmap.getHeight (), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas (output);
-        final Paint paint = new Paint ();
-        final Rect rect = new Rect (0, 0, bitmap.getWidth (), bitmap.getHeight ());
         Log.v ("getArcBitmap", "Bitmap-W:" + bitmap.getWidth () + ",H:" + bitmap.getHeight ());
-        paint.setAntiAlias (true);
+        
+        int halfWidth = bitmap.getWidth () / 2;
+        int halfheight = bitmap.getHeight () / 2;     
+        float radius = Math.sqrt(halfWidth*halfWidth + halfheight*halfheight);
+        
+        // create new cavas which fits original image and contains more space for the oval
+        Bitmap output = Bitmap.createBitmap (2*radius, 2*radius, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas (output);
         canvas.drawARGB (0, 0, 0, 0);
-        int W = bitmap.getWidth () / 2;
-        int H = bitmap.getHeight () / 2;
-        float radius = 500;
+        
+        final Paint paint = new Paint();
+        paint.setAntiAlias (true);
+        
+        // did not understand about this variable
+        final Rect rect = new Rect (0, 0, bitmap.getWidth (), bitmap.getHeight ());
+                
         final RectF oval = new RectF ();
-        oval.set (W - radius, H - radius, W + radius, H + radius);
-        canvas.drawArc (oval, startAngle, sweepAngle, true, paint);
+        oval.set (halfWidth - radius, halfheight - radius, halfWidth + radius, halfheight + radius);
+        
+        canvas.drawArc (oval, startAngle, sweepAngle, true, paint);     
         paint.setXfermode (new PorterDuffXfermode (PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap (bitmap, rect, rect, paint);
         return output;
     }
+    
 }
